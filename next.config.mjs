@@ -1,15 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   reactCompiler: true,
   images: {
     unoptimized: true,
-    remotePatterns:[
+    remotePatterns: [
       {
-        hostname: ""
-      }
-    ]
-  }
+        protocol: 'https',
+        hostname: 'v1.samehadaku.how',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

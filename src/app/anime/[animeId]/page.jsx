@@ -5,6 +5,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+export async function generateMetadata({ params }) {
+  const { animeId } = await params;
+  try {
+    const response = await getAnimeDetail(animeId);
+    const anime = response.data;
+    return {
+      title: `${anime.english || anime.title || 'Anime'} - KaelNime`,
+      description: anime.synopsis?.paragraphs?.[0] || 'Watch anime online',
+    };
+  } catch (error) {
+    return {
+      title: 'Anime - KaelNime',
+      description: 'Watch anime online',
+    };
+  }
+}
+
 export default async function AnimeDetailPage({ params }) {
   const { animeId } = await params;
   const response = await getAnimeDetail(animeId);
