@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# KaelNime - Anime Streaming Application
+
+A modern, minimalist anime streaming web application built with Next.js 16 and styled with a black & white theme inspired by shadcn/ui design principles.
+
+## Features
+
+- 🎯 **Top 10 Anime** - Curated list of the most popular anime
+- 🔍 **Search Functionality** - Find your favorite anime quickly
+- 📺 **Multiple Quality Options** - Choose from 360p to 1080p
+- 🎬 **Multiple Servers** - Alternative servers for better streaming experience
+- 📥 **Download Links** - Download episodes in various formats (MKV, MP4, x265)
+- 🎨 **Clean Black & White Design** - Minimalist UI with excellent readability
+- 📱 **Fully Responsive** - Works seamlessly on all devices
+- ⚡ **Fast Performance** - Built with Next.js 16 and Turbopack
+
+## Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **UI Components**: Custom components inspired by [shadcn/ui](https://ui.shadcn.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **API**: [Sanka Vollerei Anime API](https://www.sankavollerei.com/anime/samehadaku)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18.17 or later
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repo-url>
+cd kaelnime_samehadaku
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── anime/[animeId]/page.js    # Anime detail page
+│   ├── episode/[episodeId]/page.js # Episode streaming page
+│   ├── search/page.js              # Search results page
+│   ├── page.js                     # Homepage (Top 10)
+│   ├── layout.js                   # Root layout
+│   ├── globals.css                 # Global styles
+│   ├── loading.js                  # Loading state
+│   ├── error.js                    # Error state
+│   └── not-found.js                # 404 page
+├── components/
+│   ├── ui/
+│   │   ├── card.jsx                # Card component
+│   │   ├── button.jsx              # Button component
+│   │   ├── input.jsx               # Input component
+│   │   └── badge.jsx               # Badge component
+│   ├── Navbar.jsx                  # Navigation bar
+│   ├── AnimeCard.jsx               # Anime card component
+│   └── VideoPlayer.jsx             # Video player with quality selector
+└── lib/
+    ├── utils.js                    # Utility functions
+    └── api.js                      # API functions
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Available Pages
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **`/`** - Homepage with Top 10 anime
+- **`/anime/[animeId]`** - Anime details with episode list
+- **`/episode/[episodeId]`** - Episode streaming page
+- **`/search?q=[query]`** - Search results page
 
-## Deploy on Vercel
+## API Endpoints Used
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `GET /home` - Fetch homepage data (Top 10 anime)
+- `GET /anime/{animeId}` - Fetch anime details
+- `GET /episode/{episodeId}` - Fetch episode details
+- `GET /server/{serverId}` - Fetch server streaming URL
+- `GET /search?q={query}` - Search anime
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Customization
+
+### Theme Colors
+
+Edit `src/app/globals.css` to customize the color scheme:
+
+```css
+:root {
+  --background: 0 0% 100%;     /* White */
+  --foreground: 0 0% 3.9%;     /* Near black */
+  /* ... other colors */
+}
+
+.dark {
+  --background: 0 0% 3.9%;     /* Near black */
+  --foreground: 0 0% 98%;      /* White */
+  /* ... other colors */
+}
+```
+
+## Build for Production
+
+```bash
+npm run build
+npm start
+```
+
+## License
+
+This project is for educational purposes only.
+
+## Acknowledgments
+
+- API provided by [Sanka Vollerei](https://www.sankavollerei.com)
+- UI design inspired by [shadcn/ui](https://ui.shadcn.com/)
+- Built with [Next.js](https://nextjs.org/)
