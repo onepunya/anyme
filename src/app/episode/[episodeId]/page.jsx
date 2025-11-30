@@ -32,7 +32,7 @@ export default async function EpisodePage({ params }) {
     <div className="space-y-8">
       
 
-      <VideoPlayer episodeData={episode} />
+      <VideoPlayer episodeData={episode} episodeId={episodeId} />
 
       {episode.synopsis?.paragraphs && episode.synopsis.paragraphs.length > 0 && (
         <Card>
@@ -49,9 +49,9 @@ export default async function EpisodePage({ params }) {
               <div className="mt-4 space-y-2">
                 <h3 className="text-sm font-semibold text-foreground">Related Anime:</h3>
                 <div className="flex flex-wrap gap-2">
-                  {episode.synopsis.connections.map((connection) => (
+                  {episode.synopsis.connections.map((connection, index) => (
                     <Link
-                      key={connection.animeId}
+                      key={index}
                       href={`/anime/${connection.animeId}`}
                       className="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
                     >

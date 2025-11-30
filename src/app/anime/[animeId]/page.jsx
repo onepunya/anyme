@@ -107,9 +107,9 @@ export default async function AnimeDetailPage({ params }) {
                 <div className="mt-4 space-y-2">
                   <h3 className="text-sm font-semibold">Related Anime:</h3>
                   <div className="flex flex-wrap gap-2">
-                    {anime.synopsis.connections.map((connection) => (
+                    {anime.synopsis.connections.map((connection, index) => (
                       <Link
-                        key={connection.animeId}
+                        key={index}
                         href={`/anime/${connection.animeId}`}
                         className="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
                       >

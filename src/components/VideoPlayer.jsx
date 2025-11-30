@@ -1,14 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getServerUrl } from "@/lib/api";
+import { useWatchHistory } from "@/lib/useWatchHistory";
 
-export default function VideoPlayer({ episodeData }) {
+export default function VideoPlayer({ episodeData, episodeId }) {
   const [currentUrl, setCurrentUrl] = useState(episodeData.defaultStreamingUrl);
   const [selectedServer, setSelectedServer] = useState("default");
   const [loading, setLoading] = useState(false);
+  const { addToHistory } = useWatchHistory();
+
+  useEffect(() => {
+    if (episodeData && episodeId) {
+      addToHistory({
+        ...episodeData,
+        episodeId
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [episodeId]);
 
   const handleServerChange = async (serverId, serverTitle) => {
     setLoading(true);

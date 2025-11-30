@@ -1,6 +1,7 @@
 import { getTopAnime, getOngoingAnime } from "@/lib/api";
 import AnimeCard from "@/components/AnimeCard";
 import Link from "next/link";
+import ContinueWatching from "@/components/ContinueWatching";
 
 export default async function Home() {
   const [ongoingAnime, topAnime] = await Promise.all([
@@ -10,6 +11,8 @@ export default async function Home() {
 
   return (
     <div className="space-y-12">
+      <ContinueWatching />
+      
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">

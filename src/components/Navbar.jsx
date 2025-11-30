@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Moon, Sun } from "lucide-react";
+import { Search, Moon, Sun, History } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -48,19 +49,28 @@ export default function Navbar() {
           </div>
         </form>
 
-        {mounted && (
-          <button
-            onClick={toggleTheme}
+        <div className="flex items-center gap-2">
+          <Link
+            href="/history"
             className="flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background transition-colors hover:bg-accent hover:text-accent-foreground"
-            aria-label="Toggle theme"
+            aria-label="Watch History"
           >
-            {theme === "dark" ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
-          </button>
-        )}
+            <History className="h-4 w-4" />
+          </Link>
+          {mounted && (
+            <button
+              onClick={toggleTheme}
+              className="flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background transition-colors hover:bg-accent hover:text-accent-foreground"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
+            </button>
+          )}
+        </div>
       </div>
     </nav>
   );
