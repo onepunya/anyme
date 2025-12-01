@@ -2,7 +2,6 @@ import { getTopAnime, getOngoingAnime, getRecentAnime } from "@/lib/api";
 import AnimeCard from "@/components/AnimeCard";
 import Link from "next/link";
 import ContinueWatching from "@/components/ContinueWatching";
-import HeroSlider from "@/components/HeroSlider";
 
 export default async function Home() {
   const [recentAnime, ongoingAnime, topAnime] = await Promise.all([
@@ -12,9 +11,7 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="space-y-12">
-      <HeroSlider animeList={topAnime} />
-      
+    <div className="space-y-12">      
       <ContinueWatching />
       <div className="space-y-6">
         <div className="flex items-center justify-between">
