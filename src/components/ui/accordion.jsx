@@ -6,13 +6,21 @@ import { cn } from "@/lib/utils";
 
 const AccordionContext = React.createContext({});
 
-const Accordion = React.forwardRef(({ children, defaultValue, className, ...props }, ref) => {
+const Accordion = React.forwardRef(({ children, defaultValue, type = "single", className, ...props }, ref) => {
   const [openItems, setOpenItems] = React.useState(defaultValue ? [defaultValue] : []);
 
   const toggleItem = (value) => {
-    setOpenItems((prev) =>
-      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
-    );
+    if (type === "single") {
+      // Single mode: only one item can be open at a time
+      setOpenItems((prev) =>
+        prev.includes(value) ? [] : [value]
+      );
+    } else {
+      // Multiple mode: multiple items can be open
+      setOpenItems((prev) =>
+        prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+      );
+    }
   };
 
   return (

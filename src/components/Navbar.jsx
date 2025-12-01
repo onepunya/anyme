@@ -66,6 +66,7 @@ export default function Navbar({ genres = [] }) {
       submenu: [
         { label: "Ongoing Anime", href: "/ongoing" },
         { label: "Populer Anime", href: "/populer" },
+        { label: "Movie Anime", href: "/movie" },
         { label: "Schedule", href: "/schedule" },
       ],
     },

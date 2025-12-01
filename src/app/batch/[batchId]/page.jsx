@@ -4,6 +4,12 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion";
 import AnimeCard from "@/components/AnimeCard";
 
 export async function generateMetadata({ params }) {
@@ -84,61 +90,75 @@ export default async function BatchDetailPage({ params }) {
                 </div>
             </div>
 
-            {/* Download Links */}
+            {/* Download Links with Accordion */}
             {batch.downloadUrl?.formats && batch.downloadUrl.formats.length > 0 && (
-                <div className="space-y-6">
-                    {batch.downloadUrl.formats.map((format, formatIndex) => (
-                        <Card key={formatIndex}>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    📥 {format.title} Format
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                {format.qualities?.map((quality, qualityIndex) => (
-                                    <div key={qualityIndex} className="space-y-3">
-                                        {/* Quality Header */}
-                                        <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-lg">
-                                            <Badge variant="default" className="font-bold">
-                                                {format.title} {quality.title}
-                                            </Badge>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            📥 Download Links
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Accordion type="single" className="w-full">
+                            {batch.downloadUrl.formats.map((format, formatIndex) => (
+                                <AccordionItem key={formatIndex} value={`format-${formatIndex}`}>
+                                    <AccordionTrigger value={`format-${formatIndex}`} className="text-lg font-semibold hover:no-underline">
+                                        <div className="flex items-center gap-2">
+                                            <Badge variant="default">{format.title}</Badge>
+                                            <span className="text-sm text-muted-foreground">
+                                                ({format.qualities?.length || 0} qualities available)
+                                            </span>
                                         </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent value={`format-${formatIndex}`}>
+                                        <div className="space-y-6 pt-4">
+                                            {format.qualities?.map((quality, qualityIndex) => (
+                                                <div key={qualityIndex} className="space-y-3">
+                                                    {/* Quality Header */}
+                                                    <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-lg">
+                                                        <Badge variant="secondary" className="font-bold">
+                                                            {format.title} {quality.title}
+                                                        </Badge>
+                                                    </div>
 
-                                        {/* Download Links */}
-                                        <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                                            {quality.urls?.map((link, linkIndex) => (
-                                                <a
-                                                    key={linkIndex}
-                                                    href={link.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="flex items-center justify-between gap-2 rounded-md border border-input bg-background px-4 py-3 text-sm font-medium transition-all hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-md"
-                                                >
-                                                    <span>{link.title}</span>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="16"
-                                                        height="16"
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth="2"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    >
-                                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                                                        <polyline points="15 3 21 3 21 9" />
-                                                        <line x1="10" x2="21" y1="14" y2="3" />
-                                                    </svg>
-                                                </a>
+                                                    {/* Download Links */}
+                                                    <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                                                        {quality.urls?.map((link, linkIndex) => (
+                                                            <a
+                                                                key={linkIndex}
+                                                                href={link.url}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="flex items-center justify-between gap-2 rounded-md border border-input bg-background px-4 py-3 text-sm font-medium transition-all hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-md"
+                                                            >
+                                                                <span>{link.title}</span>
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    width="16"
+                                                                    height="16"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="2"
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                >
+                                                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                                                    <polyline points="15 3 21 3 21 9" />
+                                                                    <line x1="10" x2="21" y1="14" y2="3" />
+                                                                </svg>
+                                                            </a>
+                                                        ))}
+                                                    </div>
+                                                </div>
                                             ))}
                                         </div>
-                                    </div>
-                                ))}
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    </CardContent>
+                </Card>
             )}
 
             {/* Recommended Anime */}

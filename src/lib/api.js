@@ -76,3 +76,9 @@ export async function getBatchDetail(batchId) {
   if (!res.ok) throw new Error("Failed to fetch batch detail");
   return res.json();
 }
+
+export async function getMovieAnime(page = 1) {
+  const res = await fetch(`${BASE_URL}/movies?page=${page}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch movie anime");
+  return res.json();
+}
