@@ -14,8 +14,7 @@ export async function getTopAnime() {
 export async function getOngoingAnime(page = 1) {
   const res = await fetch(`${BASE_URL}/ongoing?page=${page}`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch ongoing anime");
-  const data = await res.json();
-  return data.data?.animeList || [];
+  return res.json();
 }
 
 export async function getAnimeDetail(animeId) {
@@ -45,6 +44,35 @@ export async function searchAnime(query) {
 export async function getRecentAnime(page = 1) {
   const res = await fetch(`${BASE_URL}/recent?page=${page}`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch recent anime");
-  const data = await res.json();
-  return data.data?.animeList || [];
+  return res.json();
+}
+
+export async function getSchedule() {
+  const res = await fetch(`${BASE_URL}/schedule`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch schedule");
+  return res.json();
+}
+
+export async function getGenres() {
+  const res = await fetch(`${BASE_URL}/genres`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch genres");
+  return res.json();
+}
+
+export async function getAnimeByGenre(genreId, page = 1) {
+  const res = await fetch(`${BASE_URL}/genres/${genreId}?page=${page}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch anime by genre");
+  return res.json();
+}
+
+export async function getPopularAnime(page = 1) {
+  const res = await fetch(`${BASE_URL}/popular?page=${page}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch popular anime");
+  return res.json();
+}
+
+export async function getBatchDetail(batchId) {
+  const res = await fetch(`${BASE_URL}/batch/${batchId}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch batch detail");
+  return res.json();
 }

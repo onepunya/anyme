@@ -18,7 +18,17 @@ export const metadata = {
   description: "Stream your favorite anime in high quality",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  // Fetch genres for navbar
+  let genres = [];
+  try {
+    const { getGenres } = await import("@/lib/api");
+    const genresData = await getGenres();
+    genres = genresData?.data?.genreList || [];
+  } catch (error) {
+    console.error("Failed to fetch genres:", error);
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -31,7 +41,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
+          <Navbar genres={genres} />
           <main className="container mx-auto px-4 py-8">
             {children}
           </main>

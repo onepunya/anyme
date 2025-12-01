@@ -4,14 +4,17 @@ import Link from "next/link";
 import ContinueWatching from "@/components/ContinueWatching";
 
 export default async function Home() {
-  const [recentAnime, ongoingAnime, topAnime] = await Promise.all([
+  const [recentData, ongoingData, topAnime] = await Promise.all([
     getRecentAnime(),
     getOngoingAnime(),
     getTopAnime()
   ]);
 
+  const recentAnime = recentData?.data?.animeList || [];
+  const ongoingAnime = ongoingData?.data?.animeList || [];
+
   return (
-    <div className="space-y-12">      
+    <div className="space-y-12">
       <ContinueWatching />
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -43,7 +46,7 @@ export default async function Home() {
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {recentAnime.slice(0, 12).map((anime) => (
-            <AnimeCard key={anime.animeId} anime={anime} showRank={false}  />
+            <AnimeCard key={anime.animeId} anime={anime} showRank={false} />
           ))}
         </div>
       </div>

@@ -124,6 +124,86 @@ export default async function AnimeDetailPage({ params }) {
         </div>
       </div>
 
+      {/* Download Batch Section */}
+      {anime.batchList && anime.batchList.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" x2="12" y1="15" y2="3" />
+              </svg>
+              Download Batch
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {anime.batchList.map((batch) => (
+                <Link
+                  key={batch.batchId}
+                  href={`/batch/${batch.batchId}`}
+                  className="flex items-center justify-between rounded-lg border border-input bg-background p-4 transition-colors hover:bg-accent hover:border-primary"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-5 w-5"
+                      >
+                        <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <path d="M3 15h6" />
+                        <path d="M6 12v6" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-medium">{batch.title}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Download all episodes in one package
+                      </p>
+                    </div>
+                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-5 w-5 text-muted-foreground"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </Link>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {anime.episodeList && anime.episodeList.length > 0 && (
         <Card>
           <CardHeader>
