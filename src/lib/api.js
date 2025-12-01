@@ -41,3 +41,10 @@ export async function searchAnime(query) {
   if (!res.ok) throw new Error("Failed to search anime");
   return res.json();
 }
+
+export async function getRecentAnime(page = 1) {
+  const res = await fetch(`${BASE_URL}/recent?page=${page}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch recent anime");
+  const data = await res.json();
+  return data.data?.animeList || [];
+}

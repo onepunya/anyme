@@ -34,6 +34,9 @@ export default function AnimeCard({ anime, showRank = false }) {
             {anime.episodes && (
               <span className="text-xs">Ep {anime.episodes}</span>
             )}
+            {anime.releasedOn && (
+              <span className="text-xs">{anime.releasedOn}</span>
+            )}
           </div>
         </CardContent>
       </Card>
