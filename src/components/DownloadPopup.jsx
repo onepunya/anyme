@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const APK_VERSION = "1.0.1";
 const APK_SIZE = "9 MB";
-const DOWNLOAD_URL = "https://github.com/username/anyme/releases/download/v1.0.1/anyme.apk"; // ganti
+const DOWNLOAD_URL = "https://github.com/onepunya/storage/releases/download/untagged-7620e514fad99cf80f80/Anyme.-.Anime.Streaming_1.0.1.apk"; // ganti
 
 export default function DownloadPopup() {
   const [show, setShow] = useState(false);
