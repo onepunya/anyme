@@ -1,8 +1,9 @@
- const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
@@ -16,8 +17,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Anyme - Anime Streaming", // Ganti nama jadi Anyme sekalian
+  title: "Anyme - Anime Streaming",
   description: "Stream your favorite anime in high quality",
+  keywords: ["anime", "streaming", "nonton anime", "anime sub indo"],
+  themeColor: "#e07820",
 };
 
 export default async function RootLayout({ children }) {
@@ -34,18 +37,19 @@ export default async function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
           <Navbar genres={genres} />
-          <main className="container mx-auto px-4 py-8">
+          <main className="container mx-auto px-4 py-6 flex-1">
             {children}
           </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

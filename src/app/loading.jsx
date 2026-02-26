@@ -1,9 +1,29 @@
+
 export default function Loading() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
-      <div className="text-center">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]" />
-        <p className="mt-4 text-muted-foreground">Loading...</p>
+      <div className="text-center space-y-4">
+        
+        {/* Industrial spinner */}
+        <div className="relative inline-flex items-center justify-center w-16 h-16">
+          {/* Outer ring */}
+          <div className="absolute inset-0 border-2 border-primary/20" />
+          {/* Spinning bar */}
+          <div className="absolute inset-0 border-2 border-transparent border-t-primary animate-spin" />
+          {/* Inner square */}
+          <div className="w-4 h-4 bg-primary" />
+        </div>
+
+        {/* Text */}
+        <div>
+          <p className="text-xs font-bold uppercase tracking-widest text-primary">
+            Loading
+          </p>
+          <p className="text-xs text-muted-foreground mt-1 tracking-wider">
+            Please wait...
+          </p>
+        </div>
+
       </div>
     </div>
   );
