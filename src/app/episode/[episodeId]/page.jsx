@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getEpisodeDetail } from "@/lib/api";
 import EpisodePlayer from "@/components/EpisodePlayer";
 
@@ -7,12 +9,12 @@ export async function generateMetadata({ params }) {
     const response = await getEpisodeDetail(episodeId);
     const episode = response.data;
     return {
-      title: `${episode.title || 'Episode'} - KaelNime`,
+      title: `${episode.title || 'Episode'} - Anyme`,
       description: episode.synopsis?.paragraphs?.[0] || 'Watch anime episode online',
     };
   } catch (error) {
     return {
-      title: 'Episode - KaelNime',
+      title: 'Episode - Anyme',
       description: 'Watch anime episode online',
     };
   }
