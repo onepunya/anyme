@@ -5,6 +5,7 @@ import { getTopAnime, getOngoingAnime, getRecentAnime } from "@/lib/api";
 import AnimeCard from "@/components/AnimeCard";
 import Link from "next/link";
 import ContinueWatching from "@/components/ContinueWatching";
+import DownloadPopup from "@/components/DownloadPopup";
 
 export default async function Home() {
   const [recentData, ongoingData, topAnime] = await Promise.all([
@@ -18,6 +19,7 @@ export default async function Home() {
 
   return (
     <div className="space-y-10 pb-10">
+      <DownloadPopup />
       <ContinueWatching />
 
       {/* Ongoing Anime */}
