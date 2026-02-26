@@ -1,9 +1,8 @@
+export const dynamic = 'force-dynamic';
+
 import { getAnimeDetail } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 export async function generateMetadata({ params }) {
   const { animeId } = await params;
@@ -11,12 +10,12 @@ export async function generateMetadata({ params }) {
     const response = await getAnimeDetail(animeId);
     const anime = response.data;
     return {
-      title: `${anime.english || anime.title || 'Anime'} - KaelNime`,
+      title: `${anime.english || anime.title || 'Anime'} - Anyme`,
       description: anime.synopsis?.paragraphs?.[0] || 'Watch anime online',
     };
   } catch (error) {
     return {
-      title: 'Anime - KaelNime',
+      title: 'Anime - Anyme',
       description: 'Watch anime online',
     };
   }
@@ -28,9 +27,13 @@ export default async function AnimeDetailPage({ params }) {
   const anime = response.data;
 
   return (
-    <div className="space-y-8">
-      <div className="grid gap-8 md:grid-cols-[300px_1fr]">
-        <div className="relative md:h-[400] w-[200px] h-[280px] mx-auto md:mx-0 md:w-full overflow-hidden rounded-lg border">
+    <div className="space-y-8 pb-10">
+
+      {/* Hero Section */}
+      <div className="grid gap-6 md:grid-cols-[220px_1fr]">
+
+        {/* Poster */}
+        <div className="relative w-[160px] h-[240px] mx-auto md:mx-0 md:w-full md:h-[320px] overflow-hidden border-2 border-border">
           <Image
             src={anime.poster}
             alt={anime.title}
@@ -38,80 +41,96 @@ export default async function AnimeDetailPage({ params }) {
             className="object-cover"
             priority
           />
+          {/* Industrial overlay corner */}
+          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary" />
+          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary" />
         </div>
 
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">{anime.english}</h1>
+        {/* Info */}
+        <div className="space-y-5">
+          <div className="industrial-border">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight uppercase">
+              {anime.english || anime.title}
+            </h1>
             {anime.japanese && (
-              <p className="text-lg text-muted-foreground">{anime.japanese}</p>
+              <p className="text-sm text-muted-foreground mt-1">{anime.japanese}</p>
             )}
           </div>
 
+          {/* Genres */}
           <div className="flex flex-wrap gap-2">
             {anime.genreList?.map((genre) => (
-              <Badge key={genre.genreId} variant="outline">
+              <Link
+                key={genre.genreId}
+                href={`/genres/${genre.genreId}`}
+                className="text-xs uppercase tracking-wider px-2 py-1 border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
                 {genre.title}
-              </Badge>
+              </Link>
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 gap-3 text-sm">
             {anime.score?.value && (
-              <div>
-                <span className="text-muted-foreground">Score:</span>{" "}
-                <span className="font-semibold">⭐ {anime.score.value}</span>
+              <div className="bg-card border border-border p-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Score</p>
+                <p className="font-bold text-primary mt-1">⭐ {anime.score.value}</p>
               </div>
             )}
             {anime.status && (
-              <div>
-                <span className="text-muted-foreground">Status:</span>{" "}
-                <span className="font-semibold">{anime.status}</span>
+              <div className="bg-card border border-border p-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Status</p>
+                <p className="font-bold mt-1">{anime.status}</p>
               </div>
             )}
             {anime.type && (
-              <div>
-                <span className="text-muted-foreground">Type:</span>{" "}
-                <span className="font-semibold">{anime.type}</span>
+              <div className="bg-card border border-border p-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Type</p>
+                <p className="font-bold mt-1">{anime.type}</p>
               </div>
             )}
             {anime.episodes && (
-              <div>
-                <span className="text-muted-foreground">Episodes:</span>{" "}
-                <span className="font-semibold">{anime.episodes}</span>
+              <div className="bg-card border border-border p-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Episodes</p>
+                <p className="font-bold mt-1">{anime.episodes}</p>
               </div>
             )}
             {anime.season && (
-              <div>
-                <span className="text-muted-foreground">Season:</span>{" "}
-                <span className="font-semibold">{anime.season}</span>
+              <div className="bg-card border border-border p-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Season</p>
+                <p className="font-bold mt-1">{anime.season}</p>
               </div>
             )}
             {anime.studios && (
-              <div>
-                <span className="text-muted-foreground">Studio:</span>{" "}
-                <span className="font-semibold">{anime.studios}</span>
+              <div className="bg-card border border-border p-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Studio</p>
+                <p className="font-bold mt-1">{anime.studios}</p>
               </div>
             )}
           </div>
 
+          {/* Synopsis */}
           {anime.synopsis?.paragraphs && (
             <div>
-              <h2 className="mb-2 text-xl font-semibold">Synopsis</h2>
-              <div className="space-y-2 text-muted-foreground">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-primary mb-2">
+                Synopsis
+              </h2>
+              <div className="space-y-2 text-sm text-muted-foreground leading-relaxed">
                 {anime.synopsis.paragraphs.map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}
               </div>
-              {anime.synopsis.connections && anime.synopsis.connections.length > 0 && (
-                <div className="mt-4 space-y-2">
-                  <h3 className="text-sm font-semibold">Related Anime:</h3>
+
+              {anime.synopsis.connections?.length > 0 && (
+                <div className="mt-4">
+                  <h3 className="text-xs font-bold uppercase tracking-widest mb-2">Related Anime</h3>
                   <div className="flex flex-wrap gap-2">
                     {anime.synopsis.connections.map((connection, index) => (
                       <Link
                         key={index}
                         href={`/anime/${connection.animeId}`}
-                        className="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                        className="text-xs px-3 py-1.5 border border-border hover:border-primary hover:text-primary transition-colors"
                       >
                         {connection.title}
                       </Link>
@@ -124,106 +143,62 @@ export default async function AnimeDetailPage({ params }) {
         </div>
       </div>
 
-      {/* Download Batch Section */}
-      {anime.batchList && anime.batchList.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5"
+      {/* Batch Download */}
+      {anime.batchList?.length > 0 && (
+        <div>
+          <div className="industrial-border mb-4">
+            <h2 className="text-lg font-bold uppercase tracking-tight">Download Batch</h2>
+          </div>
+          <div className="space-y-2">
+            {anime.batchList.map((batch) => (
+              <Link
+                key={batch.batchId}
+                href={`/batch/${batch.batchId}`}
+                className="flex items-center justify-between border border-border bg-card p-4 hover:border-primary hover:bg-primary/5 transition-colors group"
               >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" x2="12" y1="15" y2="3" />
-              </svg>
-              Download Batch
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {anime.batchList.map((batch) => (
-                <Link
-                  key={batch.batchId}
-                  href={`/batch/${batch.batchId}`}
-                  className="flex items-center justify-between rounded-lg border border-input bg-background p-4 transition-colors hover:bg-accent hover:border-primary"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-5 w-5"
-                      >
-                        <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <path d="M3 15h6" />
-                        <path d="M6 12v6" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium">{batch.title}</p>
-                      <p className="text-sm text-muted-foreground">
-                        Download all episodes in one package
-                      </p>
-                    </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-primary/10 border border-primary/30 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" x2="12" y1="15" y2="3" />
+                    </svg>
                   </div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5 text-muted-foreground"
-                  >
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </Link>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                  <div>
+                    <p className="font-semibold text-sm">{batch.title}</p>
+                    <p className="text-xs text-muted-foreground">Download all episodes</p>
+                  </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground group-hover:text-primary transition-colors">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </Link>
+            ))}
+          </div>
+        </div>
       )}
 
-      {anime.episodeList && anime.episodeList.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Episodes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
-              {anime.episodeList.map((episode) => (
-                <Link
-                  key={episode.episodeId}
-                  href={`/episode/${episode.episodeId}`}
-                  className="inline-flex h-auto items-center justify-center rounded-md border border-input bg-background px-4 py-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                  Episode {episode.title}
-                </Link>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      {/* Episode List */}
+      {anime.episodeList?.length > 0 && (
+        <div>
+          <div className="industrial-border mb-4">
+            <h2 className="text-lg font-bold uppercase tracking-tight">Episodes</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">{anime.episodeList.length} episodes available</p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9">
+            {anime.episodeList.map((episode) => (
+              <Link
+                key={episode.episodeId}
+                href={`/episode/${episode.episodeId}`}
+                className="flex items-center justify-center border border-border bg-card py-3 text-xs font-bold hover:border-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                {episode.title}
+              </Link>
+            ))}
+          </div>
+        </div>
       )}
+
     </div>
   );
 }
