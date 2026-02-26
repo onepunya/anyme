@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { getAnimeDetail } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
+import Cusdis from "@/components/Cusdis"; // Import komponen yang kita buat tadi
 
 export async function generateMetadata({ params }) {
   const { animeId } = await params;
@@ -26,13 +27,14 @@ export default async function AnimeDetailPage({ params }) {
   const response = await getAnimeDetail(animeId);
   const anime = response.data;
 
+  // Sesuaikan URL sesuai domain kamu
+  const currentUrl = `https://anyme.com/anime/${animeId}`;
+
   return (
     <div className="space-y-8 pb-10">
 
       {/* Hero Section */}
       <div className="grid gap-6 md:grid-cols-[220px_1fr]">
-
-        {/* Poster */}
         <div className="relative w-[160px] h-[240px] mx-auto md:mx-0 md:w-full md:h-[320px] overflow-hidden border-2 border-border">
           <Image
             src={anime.poster}
@@ -41,12 +43,10 @@ export default async function AnimeDetailPage({ params }) {
             className="object-cover"
             priority
           />
-          {/* Industrial overlay corner */}
           <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary" />
           <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary" />
         </div>
 
-        {/* Info */}
         <div className="space-y-5">
           <div className="industrial-border">
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight uppercase">
@@ -57,7 +57,6 @@ export default async function AnimeDetailPage({ params }) {
             )}
           </div>
 
-          {/* Genres */}
           <div className="flex flex-wrap gap-2">
             {anime.genreList?.map((genre) => (
               <Link
@@ -70,7 +69,6 @@ export default async function AnimeDetailPage({ params }) {
             ))}
           </div>
 
-          {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-3 text-sm">
             {anime.score?.value && (
               <div className="bg-card border border-border p-3">
@@ -84,6 +82,7 @@ export default async function AnimeDetailPage({ params }) {
                 <p className="font-bold mt-1">{anime.status}</p>
               </div>
             )}
+            {/* ... stats lainnya (tetap sama) ... */}
             {anime.type && (
               <div className="bg-card border border-border p-3">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">Type</p>
@@ -110,18 +109,13 @@ export default async function AnimeDetailPage({ params }) {
             )}
           </div>
 
-          {/* Synopsis */}
           {anime.synopsis?.paragraphs && (
             <div>
-              <h2 className="text-sm font-bold uppercase tracking-widest text-primary mb-2">
-                Synopsis
-              </h2>
+              <h2 className="text-sm font-bold uppercase tracking-widest text-primary mb-2">Synopsis</h2>
               <div className="space-y-2 text-sm text-muted-foreground leading-relaxed">
-                {anime.synopsis.paragraphs.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
+                {anime.synopsis.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
               </div>
-
+              {/* ... Related Anime (tetap sama) ... */}
               {anime.synopsis.connections?.length > 0 && (
                 <div className="mt-4">
                   <h3 className="text-xs font-bold uppercase tracking-widest mb-2">Related Anime</h3>
@@ -143,7 +137,7 @@ export default async function AnimeDetailPage({ params }) {
         </div>
       </div>
 
-      {/* Batch Download */}
+      {/* Batch Download (tetap sama) */}
       {anime.batchList?.length > 0 && (
         <div>
           <div className="industrial-border mb-4">
@@ -159,9 +153,7 @@ export default async function AnimeDetailPage({ params }) {
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-primary/10 border border-primary/30 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                      <polyline points="7 10 12 15 17 10" />
-                      <line x1="12" x2="12" y1="15" y2="3" />
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" />
                     </svg>
                   </div>
                   <div>
@@ -178,7 +170,7 @@ export default async function AnimeDetailPage({ params }) {
         </div>
       )}
 
-      {/* Episode List */}
+      {/* Episode List (tetap sama) */}
       {anime.episodeList?.length > 0 && (
         <div>
           <div className="industrial-border mb-4">
@@ -198,6 +190,13 @@ export default async function AnimeDetailPage({ params }) {
           </div>
         </div>
       )}
+
+      {/* BAGIAN KOMENTAR - Menggunakan komponen Cusdis.jsx */}
+      <Cusdis 
+        pageId={animeId} 
+        pageTitle={anime.english || anime.title}
+        pageUrl={currentUrl}
+      />
 
     </div>
   );
