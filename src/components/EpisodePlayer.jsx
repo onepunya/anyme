@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -6,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import BatchAccordion from "@/components/BatchAccordion";
 import { useWatchHistory } from "@/lib/useWatchHistory";
+import Cusdis from "@/components/Cusdis"; // Import komponen Cusdis
 
 export default function EpisodePlayer({ episode, episodeId }) {
     const [selectedQuality, setSelectedQuality] = useState("480p");
@@ -16,6 +16,9 @@ export default function EpisodePlayer({ episode, episodeId }) {
     const qualities = episode.server?.qualities?.filter(q => q.serverList && q.serverList.length > 0) || [];
     const currentQuality = qualities.find(q => q.title === selectedQuality) || qualities[0];
     const servers = currentQuality?.serverList || [];
+
+    // URL untuk komentar (sesuaikan domain kamu nanti)
+    const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
     // Fetch server URL
     useEffect(() => {
@@ -177,40 +180,31 @@ export default function EpisodePlayer({ episode, episodeId }) {
                                     <p key={index}>{paragraph}</p>
                                 ))}
                             </div>
-                            {episode.synopsis.connections?.length > 0 && (
-                                <div className="mt-3">
-                                    <h4 className="text-xs font-bold uppercase tracking-wider mb-2">Related Anime</h4>
-                                    <div className="flex flex-wrap gap-2">
-                                        {episode.synopsis.connections.map((connection, index) => (
-                                            <Link
-                                                key={index}
-                                                href={`/anime/${connection.animeId}`}
-                                                className="text-xs px-2 py-1 border border-border hover:border-primary hover:text-primary transition-colors"
-                                            >
-                                                {connection.title}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     )}
                 </div>
 
                 {/* Download Links */}
                 {episode.downloadUrl?.formats?.length > 0 && (
-                    <div>
+                    <div className="pb-4">
                         <div className="industrial-border mb-3">
                             <h3 className="text-sm font-bold uppercase tracking-tight">Download Links</h3>
                         </div>
                         <BatchAccordion formats={episode.downloadUrl.formats} />
                     </div>
                 )}
+
+                {/* ✅ TAMBAHKAN KOMENTAR DI SINI (KOLOM KIRI) */}
+                <Cusdis 
+                    pageId={episodeId} 
+                    pageTitle={episode.title}
+                    pageUrl={currentUrl}
+                />
             </div>
 
             {/* Right Column */}
             <div className="space-y-4">
-
+                {/* Rekomendasi episode & Movies (Tetap Sama) */}
                 {episode.recommendedEpisodeList?.length > 0 && (
                     <div className="border border-border bg-card">
                         <div className="px-4 py-3 border-b border-border">
@@ -270,15 +264,6 @@ export default function EpisodePlayer({ episode, episodeId }) {
                                             {movie.title}
                                         </p>
                                         <p className="text-xs text-muted-foreground mt-1">{movie.releaseDate}</p>
-                                        {movie.genreList?.length > 0 && (
-                                            <div className="flex flex-wrap gap-1 mt-1.5">
-                                                {movie.genreList.slice(0, 2).map((genre) => (
-                                                    <span key={genre.genreId} className="text-xs px-1.5 py-0.5 border border-border">
-                                                        {genre.title}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        )}
                                     </div>
                                 </Link>
                             ))}
