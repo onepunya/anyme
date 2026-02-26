@@ -4,28 +4,30 @@ import Script from 'next/script';
 import { useEffect } from 'react';
 
 export default function Cusdis({ pageId, pageTitle, pageUrl }) {
+  
+  // Fungsi untuk refresh widget dengan aman
   useEffect(() => {
-    if (window.CUSDIS) {
-      window.CUSDIS.renderWidget();
-    }
+    const renderCusdis = () => {
+      if (window.CUSDIS && typeof window.CUSDIS.renderWidget === 'function') {
+        window.CUSDIS.renderWidget();
+      }
+    };
+
+    // Kita beri sedikit delay atau tunggu sampai window.CUSDIS tersedia
+    renderCusdis();
   }, [pageId]);
 
   return (
-    <div className="mt-12 space-y-6">
-      {/* Header Style Industrial */}
-      <div className="industrial-border">
-        <h2 className="text-lg font-bold uppercase tracking-tighter">
-          Komentar / Diskusi
-        </h2>
+    <div className="mt-12 pt-8 border-t border-border">
+      <div className="industrial-border mb-6">
+        <h2 className="text-lg font-bold uppercase tracking-tight">Diskusi / Komentar</h2>
       </div>
-
-      <div className="bg-card border border-border p-4 md:p-8 relative">
-        {/* Dekorasi Siku Industrial */}
+      
+      <div className="bg-card border border-border p-4 md:p-8 relative min-h-[200px]">
         <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary" />
         <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary" />
         
-        {/* Widget Cusdis dengan App ID kamu */}
-        <div 
+        <div
           id="cusdis_thread"
           data-host="https://cusdis.com"
           data-app-id="71104604-3c2e-4a2f-95bf-eb2c0ff2d243"
@@ -36,10 +38,10 @@ export default function Cusdis({ pageId, pageTitle, pageUrl }) {
         ></div>
       </div>
 
-      {/* Script Cusdis bawaan Next.js */}
+      {/* Gunakan strategy lazyOnload agar tidak bentrok dengan player video */}
       <Script 
         src="https://cusdis.com/js/cusdis.es.js" 
-        strategy="afterInteractive" 
+        strategy="lazyOnload" 
       />
     </div>
   );
