@@ -1,3 +1,6 @@
+
+export const dynamic = 'force-dynamic';
+
 import { getTopAnime, getOngoingAnime, getRecentAnime } from "@/lib/api";
 import AnimeCard from "@/components/AnimeCard";
 import Link from "next/link";
@@ -14,57 +17,55 @@ export default async function Home() {
   const ongoingAnime = ongoingData?.data?.animeList || [];
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10 pb-10">
       <ContinueWatching />
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h2 className="text-2xl font-bold tracking-tight">Ongoing Anime</h2>
-            <p className="text-sm text-muted-foreground">
-              Currently airing anime series
-            </p>
+
+      {/* Ongoing Anime */}
+      <section>
+        <div className="flex items-center justify-between mb-4">
+          <div className="industrial-border">
+            <h2 className="text-xl font-bold tracking-tight uppercase">Ongoing Anime</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">Currently airing series</p>
           </div>
           <Link
             href="/ongoing"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="text-xs font-semibold uppercase tracking-widest px-3 py-2 border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
           >
             View All
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
           {ongoingAnime.slice(0, 12).map((anime) => (
             <AnimeCard key={anime.animeId} anime={anime} showRank={false} />
           ))}
         </div>
-      </div>
-      <div className="space-y-6">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-bold tracking-tight">Recent Updates</h2>
-          <p className="text-sm text-muted-foreground">
-            Latest anime episodes released
-          </p>
+      </section>
+
+      {/* Recent Updates */}
+      <section>
+        <div className="industrial-border mb-4">
+          <h2 className="text-xl font-bold tracking-tight uppercase">Recent Updates</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Latest episodes released</p>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
           {recentAnime.slice(0, 12).map((anime) => (
             <AnimeCard key={anime.animeId} anime={anime} showRank={false} />
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="space-y-6">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-bold tracking-tight">Top 10 Anime</h2>
-          <p className="text-sm text-muted-foreground">
-            Most popular anime right now
-          </p>
+      {/* Top 10 */}
+      <section>
+        <div className="industrial-border mb-4">
+          <h2 className="text-xl font-bold tracking-tight uppercase">Top 10 Anime</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Most popular right now</p>
         </div>
-
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5">
           {topAnime.map((anime) => (
             <AnimeCard key={anime.animeId} anime={anime} showRank={true} />
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
