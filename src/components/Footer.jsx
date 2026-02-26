@@ -30,7 +30,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xs font-bold uppercase tracking-widest mb-3">Info</h3>
             <ul className="space-y-2 text-xs text-muted-foreground">
-              <li><span>© 2025 Anyme</span></li>
+              <li><span>© 2026 Anyme - onepunya</span></li>
               <li><span>All rights reserved</span></li>
             </ul>
           </div>
