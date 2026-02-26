@@ -1,9 +1,13 @@
+Ini layout.jsx lengkap dengan BottomNav dan semua update:
+
+```jsx
 export const dynamic = 'force-dynamic';
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BottomNav from "@/components/BottomNav";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
@@ -20,6 +24,9 @@ export const metadata = {
   title: "Anyme - Anime Streaming",
   description: "Stream your favorite anime in high quality",
   keywords: ["anime", "streaming", "nonton anime", "anime sub indo"],
+};
+
+export const viewport = {
   themeColor: "#e07820",
 };
 
@@ -46,12 +53,19 @@ export default async function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <Navbar genres={genres} />
-          <main className="container mx-auto px-4 py-6 flex-1">
+          <main className="container mx-auto px-4 py-6 flex-1 pb-20 md:pb-6">
             {children}
           </main>
           <Footer />
+          <BottomNav />
         </ThemeProvider>
       </body>
     </html>
   );
 }
+```
+
+**Yang berubah:**
+- Tambah `BottomNav` import dan komponen
+- Pindah `themeColor` ke `viewport` export (fix warning)
+- `pb-20 md:pb-6` di main agar konten tidak ketutupan BottomNav di mobile 🔧
