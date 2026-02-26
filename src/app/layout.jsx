@@ -1,6 +1,4 @@
-Ini layout.jsx lengkap dengan BottomNav dan semua update:
 
-```jsx
 export const dynamic = 'force-dynamic';
 
 import { Geist, Geist_Mono } from "next/font/google";
@@ -63,9 +61,3 @@ export default async function RootLayout({ children }) {
     </html>
   );
 }
-```
-
-**Yang berubah:**
-- Tambah `BottomNav` import dan komponen
-- Pindah `themeColor` ke `viewport` export (fix warning)
-- `pb-20 md:pb-6` di main agar konten tidak ketutupan BottomNav di mobile 🔧
