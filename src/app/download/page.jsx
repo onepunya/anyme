@@ -4,12 +4,12 @@ import Link from "next/link";
 // GANTI INFO INI SESUAI APK KAMU
 // ==============================
 const APP_INFO = {
-  version: "1.0.1 (3)",
+  version: "1.0.1",
   size: "9 MB",
   minAndroid: "6.0",
   updated: "26 Februari 2026",
   packageName: "com.onepunya.anyme",
-  downloadUrl: "https://github.com/username/anyme/releases/download/v1.0.1/anyme.apk", // ganti
+  downloadUrl: "https://github.com/onepunya/storage/releases/download/untagged-7620e514fad99cf80f80/Anyme.-.Anime.Streaming_1.0.1.apk", // ganti
   changelog: [
     "Rilis perdana Anyme",
     "Streaming anime sub Indo gratis",
@@ -33,10 +33,12 @@ export default function DownloadPage() {
         <div className="container mx-auto px-4 py-12">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             {/* App Icon */}
-            <div className="w-20 h-20 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center flex-shrink-0">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-10 h-10 text-primary">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
+            <div className="w-20 h-20 rounded-xl overflow-hidden border border-primary/30 flex-shrink-0">
+              <img
+                src="https://raw.githubusercontent.com/onepunya/storage/refs/heads/main/icon-512.png"
+                alt="Anyme Icon"
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* App Info */}
