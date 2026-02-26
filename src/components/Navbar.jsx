@@ -1,8 +1,8 @@
+
 "use client";
 
 import Link from "next/link";
 import { Search, Moon, Sun, History, Menu, X, ChevronDown } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -41,13 +41,11 @@ export default function Navbar({ genres = [] }) {
     setOpenDropdown(openDropdown === menu ? null : menu);
   };
 
-  // Build genre submenu from API data
   const genreSubmenu = genres.slice(0, 5).map((genre) => ({
     label: genre.title,
     href: `/genres/${genre.genreId}`,
   }));
 
-  // Add "View All Genres" at the end
   if (genres.length > 0) {
     genreSubmenu.push({
       label: "View All Genres →",
@@ -56,11 +54,7 @@ export default function Navbar({ genres = [] }) {
   }
 
   const menuItems = [
-    {
-      label: "Home",
-      href: "/",
-      submenu: null,
-    },
+    { label: "Home", href: "/", submenu: null },
     {
       label: "Browse",
       submenu: [
@@ -77,40 +71,43 @@ export default function Navbar({ genres = [] }) {
         { label: "Comedy", href: "/genres/comedy" },
         { label: "Romance", href: "/genres/romance" },
         { label: "Fantasy", href: "/genres/fantasy" },
-        { label: "Adventure", href: "/genres/adventure" },
         { label: "View All Genres →", href: "/genres" },
       ],
     },
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between gap-4">
+        <div className="flex h-14 items-center justify-between gap-4">
+
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <h1 className="text-xl font-bold">KaelNime</h1>
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <div className="w-1 h-6 bg-primary" />
+            <h1 className="text-lg font-black uppercase tracking-widest text-foreground">
+              Any<span className="text-primary">me</span>
+            </h1>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden items-center gap-6 md:flex">
+          {/* Desktop Nav */}
+          <div className="hidden items-center gap-1 md:flex">
             {menuItems.map((item) =>
               item.submenu ? (
                 <div key={item.label} className="relative">
                   <button
                     onClick={() => toggleDropdown(item.label)}
-                    className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary"
+                    className="flex items-center gap-1 px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors hover:text-primary"
                   >
                     {item.label}
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className={`h-3 w-3 transition-transform ${openDropdown === item.label ? "rotate-180" : ""}`} />
                   </button>
                   {openDropdown === item.label && (
-                    <div className="absolute left-0 top-full mt-2 w-48 rounded-md border bg-popover p-2 shadow-lg max-h-96 overflow-y-auto">
+                    <div className="absolute left-0 top-full mt-1 w-48 border border-border bg-background shadow-lg max-h-96 overflow-y-auto">
                       {item.submenu.map((subItem) => (
                         <Link
                           key={subItem.href}
                           href={subItem.href}
-                          className="block rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent"
+                          className="block px-4 py-2.5 text-xs font-medium uppercase tracking-wider transition-colors hover:bg-primary hover:text-primary-foreground border-b border-border/50 last:border-0"
                           onClick={() => setOpenDropdown(null)}
                         >
                           {subItem.label}
@@ -123,7 +120,7 @@ export default function Navbar({ genres = [] }) {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="text-sm font-medium transition-colors hover:text-primary"
+                  className="px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors hover:text-primary"
                 >
                   {item.label}
                 </Link>
@@ -131,99 +128,88 @@ export default function Navbar({ genres = [] }) {
             )}
           </div>
 
-          {/* Search Bar - Desktop */}
-          <form
-            onSubmit={handleSearch}
-            className="hidden w-full max-w-sm items-center space-x-2 md:flex"
-          >
-            <div className="relative flex-1">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
+          {/* Search Desktop */}
+          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xs">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+              <input
                 type="search"
                 placeholder="Search anime..."
-                className="pl-8"
+                className="w-full bg-card border border-border pl-9 pr-4 py-2 text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </form>
 
-          {/* Right Side Icons */}
-          <div className="flex items-center gap-2">
+          {/* Right Icons */}
+          <div className="flex items-center gap-1.5">
             <Link
               href="/history"
-              className="flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="flex h-8 w-8 items-center justify-center border border-border hover:border-primary hover:text-primary transition-colors"
               aria-label="Watch History"
             >
-              <History className="h-4 w-4" />
+              <History className="h-3.5 w-3.5" />
             </Link>
             {mounted && (
               <button
                 onClick={toggleTheme}
-                className="flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background transition-colors hover:bg-accent hover:text-accent-foreground"
+                className="flex h-8 w-8 items-center justify-center border border-border hover:border-primary hover:text-primary transition-colors"
                 aria-label="Toggle theme"
               >
                 {theme === "dark" ? (
-                  <Sun className="h-4 w-4" />
+                  <Sun className="h-3.5 w-3.5" />
                 ) : (
-                  <Moon className="h-4 w-4" />
+                  <Moon className="h-3.5 w-3.5" />
                 )}
               </button>
             )}
-            {/* Hamburger Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background transition-colors hover:bg-accent hover:text-accent-foreground md:hidden"
+              className="flex h-8 w-8 items-center justify-center border border-border hover:border-primary hover:text-primary transition-colors md:hidden"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? (
-                <X className="h-4 w-4" />
-              ) : (
-                <Menu className="h-4 w-4" />
-              )}
+              {mobileMenuOpen ? <X className="h-3.5 w-3.5" /> : <Menu className="h-3.5 w-3.5" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="border-t py-4 md:hidden">
+          <div className="border-t border-border py-4 md:hidden">
             {/* Mobile Search */}
             <form onSubmit={handleSearch} className="mb-4">
               <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                <input
                   type="search"
                   placeholder="Search anime..."
-                  className="pl-8"
+                  className="w-full bg-card border border-border pl-9 pr-4 py-2.5 text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
             </form>
 
-            {/* Mobile Navigation Links */}
-            <div className="space-y-2">
+            {/* Mobile Nav Links */}
+            <div className="space-y-1">
               {menuItems.map((item) =>
                 item.submenu ? (
                   <div key={item.label}>
                     <button
                       onClick={() => toggleDropdown(item.label)}
-                      className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                      className="flex w-full items-center justify-between px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors hover:text-primary"
                     >
                       {item.label}
-                      <ChevronDown
-                        className={`h-4 w-4 transition-transform ${openDropdown === item.label ? "rotate-180" : ""
-                          }`}
-                      />
+                      <ChevronDown className={`h-3.5 w-3.5 transition-transform ${openDropdown === item.label ? "rotate-180" : ""}`} />
                     </button>
                     {openDropdown === item.label && (
-                      <div className="ml-4 mt-1 space-y-1 max-h-64 overflow-y-auto">
+                      <div className="ml-3 border-l border-primary/30 pl-3 space-y-1 max-h-64 overflow-y-auto">
                         {item.submenu.map((subItem) => (
                           <Link
                             key={subItem.href}
                             href={subItem.href}
-                            className="block rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent"
+                            className="block py-2 text-xs text-muted-foreground hover:text-primary transition-colors"
                           >
                             {subItem.label}
                           </Link>
@@ -235,7 +221,7 @@ export default function Navbar({ genres = [] }) {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                    className="block px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors hover:text-primary"
                   >
                     {item.label}
                   </Link>
