@@ -17,12 +17,20 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 export const metadata = {
   title: "Anyme - Anime Streaming",
   description: "Stream your favorite anime in high quality",
   keywords: ["anime", "streaming", "nonton anime", "anime sub indo"],
-};
+  // Tambahkan bagian icons di bawah ini
+  icons: {
+    icon: "/favicon.ico", // Muncul di tab browser
+    shortcut: "/favicon.ico",
+    apple: "/icon-512.png", // Muncul saat disimpan di iPhone/iPad
+    other: {
+      rel: "apple-touch-icon-precomposed",
+      url: "/icon-512.png",
+    },
+  },
 
 export const viewport = {
   themeColor: "#e07820",
