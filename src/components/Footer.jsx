@@ -25,6 +25,7 @@ export default function Footer() {
               <li><a href="/populer" className="hover:text-primary transition-colors">Popular</a></li>
               <li><a href="/schedule" className="hover:text-primary transition-colors">Schedule</a></li>
               <li><a href="/search" className="hover:text-primary transition-colors">Search</a></li>
+              <li><a href="/download" className="hover:text-primary transition-colors">Download APK</a></li>
             </ul>
           </div>
           <div>
@@ -39,7 +40,7 @@ export default function Footer() {
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li>
                 <a
-                  href="https://github.com/onepunya" // ganti dengan link GitHub kamu
+                  href="https://github.com/onepunya"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 hover:text-primary transition-colors"
@@ -52,7 +53,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://chat.whatsapp.com/FRL4FzReE0X4qf8Yy80RkW?mode=gi_t" // ganti dengan link grup WhatsApp kamu
+                  href="https://chat.whatsapp.com/FRL4FzReE0X4qf8Yy80RkW?mode=gi_t"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 hover:text-primary transition-colors"
@@ -77,13 +78,26 @@ export default function Footer() {
                   Website
                 </a>
               </li>
+              <li>
+                <a
+                  href="/download"
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5 shrink-0">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  Download APK
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-border pt-4 flex items-center justify-between">
           <p className="text-xs text-muted-foreground">
-            © 2025 <span className="text-primary font-bold">Anyme</span>. All rights reserved.
+            © 2026 <span className="text-primary font-bold">Anyme</span>. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
             Made with ❤️ for anime fans
@@ -93,4 +107,3 @@ export default function Footer() {
     </footer>
   );
 }
-
