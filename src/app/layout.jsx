@@ -1,3 +1,5 @@
+ const dynamic = 'force-dynamic';
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -14,12 +16,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "KaelNime - Anime Streaming",
+  title: "Anyme - Anime Streaming", // Ganti nama jadi Anyme sekalian
   description: "Stream your favorite anime in high quality",
 };
 
 export default async function RootLayout({ children }) {
-  // Fetch genres for navbar
   let genres = [];
   try {
     const { getGenres } = await import("@/lib/api");
