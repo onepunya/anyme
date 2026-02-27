@@ -24,8 +24,7 @@ export default function Footer() {
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li><a href="/populer" className="hover:text-primary transition-colors">Popular</a></li>
               <li><a href="/schedule" className="hover:text-primary transition-colors">Schedule</a></li>
-              <li><a href="/search" className="hover:text-primary transition-colors">Search</a></li>
-              <li><a href="/download" className="hover:text-primary transition-colors">Download APK</a></li>
+              <li><a href="/search" className="hover:text-primary transition-colors">Search</a></li>             
             </ul>
           </div>
           <div>
