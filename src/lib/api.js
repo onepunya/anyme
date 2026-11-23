@@ -1,4 +1,4 @@
-const BASE_URL = "https://www.sankavollerei.com/anime/samehadaku";
+const BASE_URL = "https://www.sankavollerei.web.id/anime/samehadaku";
 
 export async function getHomeData() {
   const res = await fetch(`${BASE_URL}/home`, { cache: "no-store" });
