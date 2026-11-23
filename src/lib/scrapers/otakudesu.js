@@ -88,7 +88,7 @@ function parseCards(html, limit = 24) {
 
   if (results.length === 0) {
     const looseRe =
-      /href="([^"]*\/anime\/[^"/]+\/?)"[^>]*>[\s\S]*?(?:title="([^"]+)"|>([^<]{3,80})</gi;
+      /href="([^"]*\/anime\/[^"/]+\/?)"[^>]*>[\s\S]*?(?:title="([^"]+)"|>([^<]{3,80})<)/gi;
     while ((m = looseRe.exec(html)) !== null && results.length < limit) {
       const href = m[1];
       const title = cleanText(m[2] || m[3] || "");
