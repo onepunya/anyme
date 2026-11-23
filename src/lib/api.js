@@ -26,14 +26,12 @@ export async function getHomeData() {
     console.error("[api] getHomeData failed:", err?.message || err);
     return toHomeResponse({ top: [], ongoing: [], recent: [] });
   }
-=======
 const BASE_URL = "https://www.sankavollerei.web.id/anime";
 
 export async function getHomeData() {
   const res = await fetch(`${BASE_URL}/home`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch home data");
   return res.json();
->>>>>>> 7f59fee59bf3a22401d939e2b7ff7cb9c22eaa86
 }
 
 export async function getTopAnime() {
@@ -42,7 +40,6 @@ export async function getTopAnime() {
 }
 
 export async function getOngoingAnime(page = 1) {
-<<<<<<< HEAD
   try {
     const cards = await otaku.getOngoing(page);
     return toListResponse(cards, page);
@@ -225,7 +222,6 @@ export async function getBatchDetail(batchId) {
 
 export async function getMovieAnime(page = 1) {
   return getPopularAnime(page);
-=======
   const res = await fetch(`${BASE_URL}/ongoing?page=${page}`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch ongoing anime");
   return res.json();
