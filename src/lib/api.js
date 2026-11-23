@@ -1,4 +1,3 @@
-
 /**
  * Anyme data layer
  * Primary: Otakudesu (Sub Indo)
@@ -26,12 +25,6 @@ export async function getHomeData() {
     console.error("[api] getHomeData failed:", err?.message || err);
     return toHomeResponse({ top: [], ongoing: [], recent: [] });
   }
-const BASE_URL = "https://www.sankavollerei.web.id/anime";
-
-export async function getHomeData() {
-  const res = await fetch(`${BASE_URL}/home`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch home data");
-  return res.json();
 }
 
 export async function getTopAnime() {
@@ -107,7 +100,6 @@ function groupServersByQuality(servers) {
       title: s.title,
     });
   }
-  // Prefer 720p first in UI
   const order = ["720p", "480p", "360p", "auto"];
   const qualities = [];
   const seen = new Set();
@@ -136,7 +128,6 @@ export async function getEpisodeDetail(episodeId) {
 
     let epUrl = decoded.epUrl;
     if (!epUrl) {
-      // Rebuild from anime detail episode list
       const detail = await otaku.getDetail(decoded.animeSlug);
       const hit = (detail.episodeList || []).find(
         (e) => e.ep === decoded.ep || e.episodeId === episodeId
@@ -222,72 +213,4 @@ export async function getBatchDetail(batchId) {
 
 export async function getMovieAnime(page = 1) {
   return getPopularAnime(page);
-  const res = await fetch(`${BASE_URL}/ongoing?page=${page}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch ongoing anime");
-  return res.json();
 }
-
-export async function getAnimeDetail(animeId) {
-  const res = await fetch(`${BASE_URL}/anime/${animeId}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch anime detail");
-  return res.json();
-}
-
-export async function getEpisodeDetail(episodeId) {
-  const res = await fetch(`${BASE_URL}/episode/${episodeId}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch episode detail");
-  return res.json();
-}
-
-export async function getServerUrl(serverId) {
-  const res = await fetch(`${BASE_URL}/server/${serverId}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch server URL");
-  return res.json();
-}
-
-export async function searchAnime(query) {
-  const res = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(query)}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to search anime");
-  return res.json();
-}
-
-export async function getRecentAnime(page = 1) {
-  const res = await fetch(`${BASE_URL}/recent?page=${page}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch recent anime");
-  return res.json();
-}
-
-export async function getSchedule() {
-  const res = await fetch(`${BASE_URL}/schedule`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch schedule");
-  return res.json();
-}
-
-export async function getGenres() {
-  const res = await fetch(`${BASE_URL}/genres`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch genres");
-  return res.json();
-}
-
-export async function getAnimeByGenre(genreId, page = 1) {
-  const res = await fetch(`${BASE_URL}/genres/${genreId}?page=${page}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch anime by genre");
-  return res.json();
-}
-
-export async function getPopularAnime(page = 1) {
-  const res = await fetch(`${BASE_URL}/popular?page=${page}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch popular anime");
-  return res.json();
-}
-
-export async function getBatchDetail(batchId) {
-  const res = await fetch(`${BASE_URL}/batch/${batchId}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch batch detail");
-  return res.json();
-}
-
-export async function getMovieAnime(page = 1) {
-  const res = await fetch(`${BASE_URL}/movies?page=${page}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch movie anime");
-  return res.json();
