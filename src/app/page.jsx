@@ -43,11 +43,11 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Recent Updates */}
+      {/* Completed */}
       <section>
         <div className="industrial-border mb-4">
-          <h2 className="text-xl font-bold tracking-tight uppercase">Recent Updates</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Latest episodes released</p>
+          <h2 className="text-xl font-bold tracking-tight uppercase">Completed Anime</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Series that have finished airing</p>
         </div>
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
           {recentAnime.slice(0, 12).map((anime) => (
@@ -56,18 +56,20 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Top 10 */}
-      <section>
-        <div className="industrial-border mb-4">
-          <h2 className="text-xl font-bold tracking-tight uppercase">Top 10 Anime</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Most popular right now</p>
-        </div>
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5">
-          {topAnime.map((anime) => (
-            <AnimeCard key={anime.animeId} anime={anime} showRank={true} />
-          ))}
-        </div>
-      </section>
+      {/* Top 10 (hanya tampil kalau API menyediakan data populer) */}
+      {topAnime.length > 0 && (
+        <section>
+          <div className="industrial-border mb-4">
+            <h2 className="text-xl font-bold tracking-tight uppercase">Top 10 Anime</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">Most popular right now</p>
+          </div>
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5">
+            {topAnime.map((anime) => (
+              <AnimeCard key={anime.animeId} anime={anime} showRank={true} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

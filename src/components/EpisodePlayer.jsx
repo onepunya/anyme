@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import BatchAccordion from "@/components/BatchAccordion";
@@ -13,29 +13,41 @@ export default function EpisodePlayer({ episode, episodeId }) {
     const [serverUrl, setServerUrl] = useState(episode.defaultStreamingUrl || "");
     const { addToHistory } = useWatchHistory();
 
-    const qualities = episode.server?.qualities?.filter(q => q.serverList && q.serverList.length > 0) || [];
+    const [loadingServer, setLoadingServer] = useState(false);
+
+    // useMemo: supaya array tidak dibuat ulang tiap render (bikin effect jalan terus)
+    const qualities = useMemo(
+        () => episode.server?.qualities?.filter(q => q.serverList && q.serverList.length > 0) || [],
+        [episode]
+    );
     const currentQuality = qualities.find(q => q.title === selectedQuality) || qualities[0];
-    const servers = currentQuality?.serverList || [];
+    const servers = useMemo(() => currentQuality?.serverList || [], [currentQuality]);
 
     // URL untuk komentar (sesuaikan domain kamu nanti)
     const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
-    // Fetch server URL
+    // Fetch server URL (dengan cancel supaya respon lama tidak menimpa yang baru)
     useEffect(() => {
-        const fetchServerUrl = async () => {
-            if (servers[selectedServer]) {
-                try {
-                    const response = await fetch(`/api/server/${servers[selectedServer].serverId}`);
-                    const data = await response.json();
-                    setServerUrl(data.data?.url || episode.defaultStreamingUrl || "");
-                } catch (error) {
-                    setServerUrl(episode.defaultStreamingUrl || "");
-                }
-            } else {
-                setServerUrl(episode.defaultStreamingUrl || "");
+        let cancelled = false;
+        const fallback = episode.defaultStreamingUrl || "";
+        const run = async () => {
+            const server = servers[selectedServer];
+            if (!server) { setServerUrl(fallback); return; }
+            // API baru: URL stream sudah ikut di data episode, tidak perlu fetch lagi
+            if (server.url) { setServerUrl(server.url); return; }
+            setLoadingServer(true);
+            try {
+                const response = await fetch(`/api/server/${server.serverId}`);
+                const data = await response.json();
+                if (!cancelled) setServerUrl(data?.data?.url || fallback);
+            } catch (error) {
+                if (!cancelled) setServerUrl(fallback);
+            } finally {
+                if (!cancelled) setLoadingServer(false);
             }
         };
-        fetchServerUrl();
+        run();
+        return () => { cancelled = true; };
     }, [selectedServer, servers, episode.defaultStreamingUrl]);
 
     // Set initial quality
@@ -67,9 +79,15 @@ export default function EpisodePlayer({ episode, episodeId }) {
 
                 {/* Video Player */}
                 <div className="relative aspect-video bg-black border border-border overflow-hidden">
-                    {serverUrl ? (
+                    {loadingServer ? (
+                        <div className="flex items-center justify-center h-full text-white text-sm uppercase tracking-widest">
+                            Loading server...
+                        </div>
+                    ) : serverUrl ? (
                         <iframe
+                            key={serverUrl}
                             src={serverUrl}
+                            referrerPolicy="no-referrer"
                             className="w-full h-full"
                             allowFullScreen
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -80,6 +98,17 @@ export default function EpisodePlayer({ episode, episodeId }) {
                         </div>
                     )}
                 </div>
+
+                {serverUrl && (
+                    <a
+                        href={serverUrl}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="block text-center text-xs font-bold uppercase tracking-wider py-2 border border-border hover:border-primary hover:text-primary transition-colors"
+                    >
+                        Video error? Buka di tab baru / coba server lain
+                    </a>
+                )}
 
                 {/* Controls */}
                 <div className="border border-border bg-card p-3 space-y-3">
