@@ -1,20 +1,20 @@
 
 export const dynamic = 'force-dynamic';
 
-import { getTopAnime, getOngoingAnime, getRecentAnime } from "@/lib/api";
+import { getTopAnime, getOngoingAnime, getMovieAnime } from "@/lib/api";
 import AnimeCard from "@/components/AnimeCard";
 import Link from "next/link";
 import ContinueWatching from "@/components/ContinueWatching";
 import DownloadPopup from "@/components/DownloadPopup";
 
 export default async function Home() {
-  const [recentData, ongoingData, topAnime] = await Promise.all([
-    getRecentAnime(),
+  const [movieData, ongoingData, topAnime] = await Promise.all([
+    getMovieAnime(),
     getOngoingAnime(),
     getTopAnime()
   ]);
 
-  const recentAnime = recentData?.data?.animeList || [];
+  const movieAnime = movieData?.data?.animeList || [];
   const ongoingAnime = ongoingData?.data?.animeList || [];
 
   return (
@@ -43,14 +43,14 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Completed */}
+      {/* Movies */}
       <section>
         <div className="industrial-border mb-4">
-          <h2 className="text-xl font-bold tracking-tight uppercase">Completed Anime</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Series that have finished airing</p>
+          <h2 className="text-xl font-bold tracking-tight uppercase">Anime Movies</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Latest anime films</p>
         </div>
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
-          {recentAnime.slice(0, 12).map((anime) => (
+          {movieAnime.slice(0, 12).map((anime) => (
             <AnimeCard key={anime.animeId} anime={anime} showRank={false} />
           ))}
         </div>
