@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Moon, Sun, History, Menu, X, ChevronDown } from "lucide-react";
+import { Search, Moon, Sun, History, Menu, X, ChevronDown, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -55,6 +55,7 @@ export default function Navbar({ genres = [] }) {
 
   const menuItems = [
     { label: "Home", href: "/", submenu: null },
+    { label: "Manga", href: "/manga", submenu: null },
     {
       label: "Browse",
       submenu: [
@@ -150,6 +151,13 @@ export default function Navbar({ genres = [] }) {
               aria-label="Watch History"
             >
               <History className="h-3.5 w-3.5" />
+            </Link>
+            <Link
+              href="/profile"
+              className="flex h-8 w-8 items-center justify-center border border-border hover:border-primary hover:text-primary transition-colors"
+              aria-label="Profil"
+            >
+              <User className="h-3.5 w-3.5" />
             </Link>
             {mounted && (
               <button

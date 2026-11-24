@@ -7,23 +7,53 @@ const APK_VERSION = "1.0.1";
 const APK_SIZE = "9 MB";
 const DOWNLOAD_URL = "https://github.com/onepunya/storage/releases/download/untagged-7620e514fad99cf80f80/Anyme.-.Anime.Streaming_1.0.1.apk"; // ganti
 
+// Kunci per-versi: kalau nanti rilis APK baru, popup boleh muncul lagi satu kali
+const PERMANENT_KEY = `anyme_popup_dismissed_v${APK_VERSION}`;
+const SESSION_KEY = "anyme_popup_session_closed";
+
+function safeGet(store, key) {
+  try { return store.getItem(key); } catch { return null; }
+}
+function safeSet(store, key, val) {
+  try { store.setItem(key, val); } catch {}
+}
+
+// Sedang dibuka di dalam aplikasi (WebView / PWA terpasang)? Tidak perlu promosi APK.
+function isInsideApp() {
+  const ua = navigator.userAgent || "";
+  const standalone = window.matchMedia?.("(display-mode: standalone)")?.matches;
+  return /; wv\)/.test(ua) || standalone;
+}
+
 export default function DownloadPopup() {
   const [show, setShow] = useState(false);
   const [dontShow, setDontShow] = useState(false);
 
   useEffect(() => {
-    const dismissed = localStorage.getItem("anyme_popup_dismissed");
-    if (!dismissed) {
-      // Muncul setelah 1.5 detik
-      const timer = setTimeout(() => setShow(true), 1500);
-      return () => clearTimeout(timer);
+    if (
+      safeGet(localStorage, "anyme_popup_dismissed") || // kunci lama
+      safeGet(localStorage, PERMANENT_KEY) ||
+      safeGet(sessionStorage, SESSION_KEY) ||
+      isInsideApp()
+    ) {
+      return;
     }
+    // Muncul setelah 1.5 detik
+    const timer = setTimeout(() => setShow(true), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
+  // Tutup biasa: jangan muncul lagi selama sesi ini (sebelumnya muncul lagi tiap balik ke Home)
   const handleClose = () => {
-    if (dontShow) {
-      localStorage.setItem("anyme_popup_dismissed", "true");
-    }
+    safeSet(sessionStorage, SESSION_KEY, "1");
+    if (dontShow) safeSet(localStorage, PERMANENT_KEY, "1");
+    setShow(false);
+  };
+
+  // Klik Download / Info Lanjut: user sudah merespons, jangan tampilkan lagi untuk versi ini
+  const handleAction = () => {
+    safeSet(localStorage, PERMANENT_KEY, "1");
+    safeSet(sessionStorage, SESSION_KEY, "1");
     setShow(false);
   };
 
@@ -93,7 +123,7 @@ export default function DownloadPopup() {
             <div className="flex gap-2 pt-1">
               <a
                 href={DOWNLOAD_URL}
-                onClick={handleClose}
+                onClick={handleAction}
                 className="flex-1 flex items-center justify-center gap-1.5 bg-primary text-primary-foreground py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-primary/90 transition-colors glow-hover"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">
@@ -105,7 +135,7 @@ export default function DownloadPopup() {
               </a>
               <Link
                 href="/download"
-                onClick={handleClose}
+                onClick={handleAction}
                 className="flex-1 flex items-center justify-center gap-1.5 border border-border py-2.5 text-xs font-bold uppercase tracking-widest hover:border-primary/50 hover:text-primary transition-colors"
               >
                 Info Lanjut

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import BatchAccordion from "@/components/BatchAccordion";
 import { useWatchHistory } from "@/lib/useWatchHistory";
-import Cusdis from "@/components/Cusdis"; // Import komponen Cusdis
+import Comments from "@/components/Comments";
 
 export default function EpisodePlayer({ episode, episodeId }) {
     const [selectedQuality, setSelectedQuality] = useState("480p");
@@ -223,12 +223,8 @@ export default function EpisodePlayer({ episode, episodeId }) {
                     </div>
                 )}
 
-                {/* ✅ TAMBAHKAN KOMENTAR DI SINI (KOLOM KIRI) */}
-                <Cusdis 
-                    pageId={episodeId} 
-                    pageTitle={episode.title}
-                    pageUrl={currentUrl}
-                />
+                {/* Diskusi episode (database Neon) */}
+                <Comments threadKey={`episode:${episodeId}`} title="Diskusi Episode" />
             </div>
 
             {/* Right Column */}

@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { getAnimeDetail } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
-import Cusdis from "@/components/Cusdis"; // Import komponen yang kita buat tadi
+import Comments from "@/components/Comments";
 
 export async function generateMetadata({ params }) {
   const { animeId } = await params;
@@ -191,12 +191,8 @@ export default async function AnimeDetailPage({ params }) {
         </div>
       )}
 
-      {/* BAGIAN KOMENTAR - Menggunakan komponen Cusdis.jsx */}
-      <Cusdis 
-        pageId={animeId} 
-        pageTitle={anime.english || anime.title}
-        pageUrl={currentUrl}
-      />
+      {/* Diskusi anime (database Neon) */}
+      <Comments threadKey={`anime:${animeId}`} title="Diskusi Anime" />
 
     </div>
   );
