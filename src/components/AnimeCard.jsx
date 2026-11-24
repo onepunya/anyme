@@ -7,7 +7,7 @@ export default function AnimeCard({ anime, showRank = false }) {
 
   return (
     <Link href={`/anime/${anime.animeId}`} className="group block h-full">
-      <div className="h-full flex flex-col border border-border bg-card hover:border-primary transition-colors duration-200">
+      <div className="h-full flex flex-col border border-border bg-card hover:border-primary card-pop fade-up">
         
         {/* Poster */}
         <div className="relative aspect-[2/3] overflow-hidden bg-muted">
@@ -35,6 +35,13 @@ export default function AnimeCard({ anime, showRank = false }) {
               </div>
             </div>
           )}
+
+          {/* Play overlay saat hover */}
+          <div className="absolute inset-0 z-[5] flex items-center justify-center bg-black/45 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="ml-0.5 h-5 w-5"><path d="M8 5v14l11-7z" /></svg>
+            </div>
+          </div>
 
           {/* Score overlay */}
           {anime.score && (

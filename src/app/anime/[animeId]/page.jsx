@@ -4,21 +4,20 @@ import { getAnimeDetail } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
 import Comments from "@/components/Comments";
+import { shareMeta } from "@/lib/site";
 
 export async function generateMetadata({ params }) {
   const { animeId } = await params;
   try {
     const response = await getAnimeDetail(animeId);
     const anime = response.data;
-    return {
+    return shareMeta({
       title: `${anime.english || anime.title || 'Anime'} - Anyme`,
-      description: anime.synopsis?.paragraphs?.[0] || 'Watch anime online',
-    };
+      description: anime.synopsis?.paragraphs?.[0] || 'Nonton anime sub Indo gratis',
+      image: anime.poster,
+    });
   } catch (error) {
-    return {
-      title: 'Anime - Anyme',
-      description: 'Watch anime online',
-    };
+    return shareMeta({ title: 'Anime - Anyme', description: 'Nonton anime sub Indo gratis' });
   }
 }
 

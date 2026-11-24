@@ -4,11 +4,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getKomikChapter } from "@/lib/komik";
 import Comments from "@/components/Comments";
+import { shareMeta } from "@/lib/site";
 
 export async function generateMetadata({ params }) {
   const { chapterSlug } = await params;
   const c = await getKomikChapter(chapterSlug);
-  return { title: `${c?.title || "Baca Komik"} - Anyme` };
+  return shareMeta({
+    title: `${c?.title || "Baca Komik"} - Anyme`,
+    description: "Baca chapter ini gratis di Anyme",
+    image: c?.images?.[0],
+  });
 }
 
 function Nav({ c }) {

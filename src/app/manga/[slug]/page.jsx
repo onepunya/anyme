@@ -4,14 +4,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getKomikDetail } from "@/lib/komik";
 import Comments from "@/components/Comments";
+import { shareMeta } from "@/lib/site";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const m = await getKomikDetail(slug);
-  return {
+  return shareMeta({
     title: `${m?.title || "Komik"} - Anyme`,
-    description: m?.description?.slice(0, 160) || "Baca komik online",
-  };
+    description: m?.description || "Baca komik sub Indonesia gratis",
+    image: m?.image,
+  });
 }
 
 function Stat({ label, value }) {

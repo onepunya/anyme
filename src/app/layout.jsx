@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +19,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Anyme - Anime Streaming",
   description: "Stream your favorite anime in high quality",
+  openGraph: {
+    title: "Anyme - Nonton Anime & Baca Manga",
+    description: "Nonton anime dan baca manga subtitle Indonesia gratis.",
+    siteName: "Anyme",
+    type: "website",
+    locale: "id_ID",
+  },
+  twitter: { card: "summary_large_image", title: "Anyme - Nonton Anime & Baca Manga" },
   keywords: ["anime", "streaming", "nonton anime", "anime sub indo"],
   icons: {
     icon: "/favicon.ico",

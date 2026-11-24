@@ -115,3 +115,68 @@
     transition: box-shadow 0.2s ease;
   }
 }
+
+/* ============================================================
+   UI polish — hero, kartu, animasi, skeleton
+   ============================================================ */
+
+/* Cahaya oranye halus di bagian atas halaman */
+body {
+  background-image: radial-gradient(60rem 24rem at 50% -8%, hsl(25 90% 50% / 0.10), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+html { scroll-behavior: smooth; }
+
+/* Kartu: naik sedikit + glow saat hover */
+.card-pop {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+}
+.card-pop:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px -14px hsl(25 90% 50% / 0.55);
+}
+
+/* Muncul halus saat halaman dibuka */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.fade-up { animation: fade-up 0.5s ease both; }
+
+/* Skeleton loading */
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--card)) 50%, hsl(var(--muted)) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* Teks gradasi oranye */
+.text-gradient {
+  background: linear-gradient(90deg, hsl(25 95% 55%), hsl(42 95% 60%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Judul section dengan garis aksen yang memanjang */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.section-title::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, hsl(var(--primary) / 0.5), transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .skeleton { animation: none; }
+  .card-pop:hover { transform: none; }
+  html { scroll-behavior: auto; }
+}
