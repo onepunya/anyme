@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getKomikChapter } from "@/lib/komik";
 import Comments from "@/components/Comments";
+import ReadTracker from "@/components/ReadTracker";
 import { shareMeta } from "@/lib/site";
 
 export async function generateMetadata({ params }) {
@@ -45,6 +46,7 @@ export default async function ReadPage({ params }) {
 
   return (
     <div className="mx-auto max-w-3xl space-y-4 pb-10">
+      <ReadTracker chapterSlug={c.slug} chapterTitle={c.title} mangaSlug={c.mangaSlug} />
       <div className="industrial-border">
         <h1 className="text-lg md:text-xl font-bold tracking-tight uppercase">{c.title}</h1>
       </div>

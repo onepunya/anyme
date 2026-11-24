@@ -4,6 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getKomikDetail } from "@/lib/komik";
 import Comments from "@/components/Comments";
+import ChapterList, { ResumeButton } from "@/components/ChapterList";
+import { MangaVisit } from "@/components/ReadTracker";
 import { shareMeta } from "@/lib/site";
 
 export async function generateMetadata({ params }) {
@@ -33,6 +35,7 @@ export default async function MangaDetailPage({ params }) {
 
   return (
     <div className="space-y-8 pb-10">
+      <MangaVisit slug={m.slug} title={m.title} image={m.image} />
       <div className="grid gap-6 md:grid-cols-[220px_1fr]">
         <div className="relative w-[160px] h-[240px] mx-auto md:mx-0 md:w-full md:h-[320px] overflow-hidden border-2 border-border bg-muted">
           {m.image && (
@@ -78,6 +81,7 @@ export default async function MangaDetailPage({ params }) {
           </div>
 
           <div className="flex flex-wrap gap-2">
+            <ResumeButton mangaSlug={m.slug} />
             {m.firstChapter && (
               <Link
                 href={`/manga/read/${m.firstChapter}`}
@@ -111,21 +115,7 @@ export default async function MangaDetailPage({ params }) {
           <h2 className="text-lg font-bold uppercase tracking-tight">Daftar Chapter</h2>
           <p className="text-xs text-muted-foreground mt-0.5">{m.chapters.length} chapter</p>
         </div>
-        <div className="border border-border bg-card max-h-[520px] overflow-y-auto divide-y divide-border/50">
-          {m.chapters.length === 0 && (
-            <p className="p-4 text-xs text-muted-foreground">Belum ada chapter.</p>
-          )}
-          {m.chapters.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/manga/read/${c.slug}`}
-              className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              <span className="font-bold">{c.title}</span>
-              <span className="opacity-70 shrink-0">{c.releaseTime}</span>
-            </Link>
-          ))}
-        </div>
+        <ChapterList chapters={m.chapters} mangaSlug={m.slug} />
       </div>
 
       <Comments threadKey={`manga:${m.slug}`} title="Diskusi Komik" />

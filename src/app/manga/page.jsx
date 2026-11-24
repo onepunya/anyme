@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import MangaCard from "@/components/MangaCard";
+import ContinueReading from "@/components/ContinueReading";
 import {
   getKomikLatest,
   getKomikPopular,
@@ -71,6 +72,8 @@ export default async function MangaPage({ searchParams }) {
         <h1 className="text-2xl font-bold uppercase tracking-tight">Manga & Komik</h1>
         <p className="text-xs text-muted-foreground mt-0.5">Manga, manhwa, dan manhua sub Indonesia</p>
       </div>
+
+      {!q && !type && !genre && !sort && page === 1 && <ContinueReading />}
 
       {/* Search (GET form, tanpa JS) */}
       <form action="/manga" className="flex gap-2 max-w-md">

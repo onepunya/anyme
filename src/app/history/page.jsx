@@ -6,7 +6,8 @@ import Link from "next/link";
 import { Trash2, History, ChevronDown, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import MangaHistory from "@/components/MangaHistory";
 
 function formatTimeAgo(timestamp) {
   const now = Date.now();
@@ -25,7 +26,7 @@ function formatTimeAgo(timestamp) {
   return `${months}mo ago`;
 }
 
-export default function HistoryPage() {
+function AnimeHistory() {
   const { getGroupedHistory, removeFromHistory, removeAnimeHistory, clearHistory } = useWatchHistory();
   const [expandedAnime, setExpandedAnime] = useState({});
   
@@ -209,6 +210,31 @@ export default function HistoryPage() {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+
+export default function HistoryPage() {
+  const [tab, setTab] = useState("anime");
+
+  // buka langsung tab manga lewat /history?tab=manga
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "manga") setTab("manga");
+  }, []);
+
+  const tabCls = (active) =>
+    `flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold uppercase tracking-widest border transition-colors ${
+      active ? "bg-primary text-primary-foreground border-primary" : "border-border hover:border-primary hover:text-primary"
+    }`;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex gap-2">
+        <button onClick={() => setTab("anime")} className={tabCls(tab === "anime")}>Anime</button>
+        <button onClick={() => setTab("manga")} className={tabCls(tab === "manga")}>Manga</button>
+      </div>
+      {tab === "anime" ? <AnimeHistory /> : <MangaHistory />}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import Link from "next/link";
 import ContinueWatching from "@/components/ContinueWatching";
 import DownloadPopup from "@/components/DownloadPopup";
 import HeroBanner from "@/components/HeroBanner";
+import ContinueReading from "@/components/ContinueReading";
 import MangaCard from "@/components/MangaCard";
 import { getKomikLatest } from "@/lib/komik";
 
@@ -26,6 +27,7 @@ export default async function Home() {
       <DownloadPopup />
       <HeroBanner items={ongoingAnime.slice(0, 5)} />
       <ContinueWatching />
+      <ContinueReading />
 
       {/* Ongoing Anime */}
       <section>
